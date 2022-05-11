@@ -145,7 +145,7 @@ plot(x, y, type = 'l')
 
 barplot(y)
 
-boxplot(y)
+boxplot(x)
 
 ```
 
