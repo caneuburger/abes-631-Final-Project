@@ -14,7 +14,7 @@ In order to accomplish these goals, I will use the Death Star attack scene durin
 
 ## What
 
-In order to accomplish these goals, I will use the Death Star attack scene during the Battle of Yavin as seen in Star Wars: A New Hope – Episode 4. There are two scenarios (described below) I will use to  demonstrate concepts that have been learned in this class, and may be taught to other audiences.
+In order to accomplish these goals, I will use the Death Star attack scene during the Battle of Yavin as seen in Star Wars: Episode IV - A New Hope. There are two scenarios (described below) I will use to  demonstrate concepts that have been learned in this class, and may be taught to other audiences.
 
 ## Why
 
@@ -97,7 +97,9 @@ Lets also use coding in R to determine how many "misses" there are:
 
 ```{r}
 Miss <- 0 == DeathStarShot$`Hit or Miss`
+
 length(which(Miss))
+
 ```
 
 Lets demonstrate this data visually with the tools R gives us.
@@ -105,23 +107,25 @@ Lets demonstrate this data visually with the tools R gives us.
 ```{r}
 #Scatterplot representation:
 
-plot(DeathStarShot$`Hit or Miss`, DeathStarShot$Attempts)
+#plot(DeathStarShot$`Hit or Miss`, DeathStarShot$Attempts)
+
+plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 
 ```
 
 ```{r}
 #Barplot representation:
 
-#barplot(DeathStarShot$`Hit or Miss`, DeathStarShot$Attempts)
+barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 ```
 
 ```{r}
 #Boxplot representation:
 
-#boxplot(DeathStarShot$`Hit or Miss`)
+boxplot(DeathStarShot$Hit.or.Miss)
 ```
 
-Because we are dealing with a "one in a million shot" scenario, this should immediately look odd compared to other data sets we have reviewed. For example here is a visualization of normal distribution, not the contrast:
+Because we are dealing with a "one in a million shot" scenario, this should immediately look odd compared to other data sets we have reviewed. For example here is a visualization of normal distribution, note the contrast:
 
 ```{r}
 x <- seq(-5, 5, length = 100)
@@ -257,9 +261,20 @@ qnbinom(.999, size = 1, prob = 0.000001)
 
 Here we will calculate the probabilities of survival through a few different exercises.
 
-###Insert IMAGE
 
-First, let us explore what the chances of survival were regardless of the class of Starfighter flown during the Battle of Yavin.
+
+```{r, echo=FALSE, fig.align = "center", out.width="90%"}
+knitr::include_graphics("StarfighterSurvival.png")
+```
+
+
+
+First, let us explore what the chances of survival were regardless of the class of Starfighter flown during the Battle of Yavin. Here is the data will we be using in the subsequent exercises:
+
+```{r, echo=FALSE, fig.align = "center", out.width="90%"}
+knitr::include_graphics("StarfighterSurvival.png")
+```
+
 
 ```{r}
 #There were a total of two squadrons, or 24 Starfighters as each squadron is made up of 12 Starfighters. Given that there were only three survivors between the Rebel squadrons we would calculate the probability of survival as:
