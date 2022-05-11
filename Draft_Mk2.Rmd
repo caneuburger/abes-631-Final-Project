@@ -70,6 +70,7 @@ Notice that while not overly complex, the table does express one million cells t
 
 Here are a few different functions within R that can be used to analyse the data set:
 
+
 ```{r}
 #This shows the dimensions of the data set:
 
@@ -86,14 +87,18 @@ range(DeathStarShot$`Hit or Miss`)
 
 ```
 
+
 Lets use coding in R to confirm how many "hits" there are in the data set:
+
 
 ```{r}
 Hit <- 1 == DeathStarShot$`Hit or Miss`
 length(which(Hit))
 ```
 
+
 Lets also use coding in R to determine how many "misses" there are:
+
 
 ```{r}
 Miss <- 0 == DeathStarShot$`Hit or Miss`
@@ -102,7 +107,9 @@ length(which(Miss))
 
 ```
 
+
 Lets demonstrate this data visually with the tools R gives us.
+
 
 ```{r}
 #Scatterplot representation:
@@ -113,11 +120,13 @@ plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 
 ```
 
+
 ```{r}
 #Barplot representation:
 
 barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 ```
+
 
 ```{r}
 #Boxplot representation:
@@ -125,7 +134,7 @@ barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 boxplot(DeathStarShot$Hit.or.Miss)
 ```
 
-Because we are dealing with a "one in a million shot" scenario, this should immediately look odd compared to other data sets we have reviewed. For example here is a visualization of normal distribution, note the contrast:
+Because we are dealing with a "one in a million shot" scenario, this should immediately look odd compared to other data sets we have reviewed. For example here is a visualization of normal distribution, note the contrasts:
 
 ```{r}
 x <- seq(-5, 5, length = 100)
@@ -133,6 +142,10 @@ x <- seq(-5, 5, length = 100)
 y <- dnorm(x)
 
 plot(x, y, type = 'l')
+
+barplot(x, y)
+
+boxplot(y)
 
 ```
 
