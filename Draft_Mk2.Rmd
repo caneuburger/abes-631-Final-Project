@@ -82,7 +82,7 @@ length(names(DeathStarShot))
 
 #This shows us the range of the attempts that were made in the data set. In this scenario it is severely limited as we are simply looking for FALSE or TRUE statements:
 
-range(DeathStarShot$`Hit or Miss`)
+range(DeathStarShot$Hit.or.Miss)
 
 
 ```
@@ -92,7 +92,7 @@ Lets use coding in R to confirm how many "hits" there are in the data set:
 
 
 ```{r}
-Hit <- 1 == DeathStarShot$`Hit or Miss`
+Hit <- 1 == DeathStarShot$Hit.or.Miss
 length(which(Hit))
 ```
 
@@ -101,7 +101,7 @@ Lets also use coding in R to determine how many "misses" there are:
 
 
 ```{r}
-Miss <- 0 == DeathStarShot$`Hit or Miss`
+Miss <- 0 == DeathStarShot$Hit.or.Miss
 
 length(which(Miss))
 
@@ -114,9 +114,7 @@ Lets demonstrate this data visually with the tools R gives us.
 ```{r}
 #Scatterplot representation:
 
-#plot(DeathStarShot$`Hit or Miss`, DeathStarShot$Attempts)
-
-plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
+plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, pch = 16, col = ifelse(DeathStarShot$Hit.or.Miss > 0, "green", "red"))
 
 ```
 
@@ -124,7 +122,7 @@ plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
 ```{r}
 #Barplot representation:
 
-barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss)
+barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, pch = 16, col = ifelse(DeathStarShot$Hit.or.Miss < 0, "green", "red"))
 ```
 
 
