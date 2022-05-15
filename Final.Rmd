@@ -1,5 +1,5 @@
 ---
-title: "Final Project - Draft"
+title: "Final Project"
 author: "Chace Neuburger"
 date: "4/27/2022"
 output: pdf_document
@@ -24,9 +24,7 @@ Using pop culture references has the positive impact of generating interest in m
 
 ## How
 
-First, we as the audience have it described to us before the Death Star attack from Wedge Antilles that the shot required to destroy the Death Star is “…impossible! Even for a computer.” to which Luke Skywalker replies “It's not impossible. I used to bullseye womp rats in my T-16 back home, they're not much bigger than two meters.” After the battle Han Solo exclaims “Great shot, kid. That was one in a million!” What we can determine from these lines of dialogue is that while not impossible, the shot that Luke took to successfully destroy the Death Star was incredibly difficult and should be expected as an extremely rare event. Likely only possible due to Luke's use of the Force.
-
-Second, I will demonstrate probabilities of survival by incorporating Bayes' Theorem and tree diagrams along the lines of the two squadrons that attacked the Death Star. Red Squadron was comprised strictly of X-Wings and Gold Squadron was comprised strictly of Y-Wings. Each squadron consists of 12 Starfighters each. I will use this data and the occurrences of the battle in order to demonstrate several scenarios and the probabilities associated with them. I will also use RStudio to calculate and display findings.
+Will be using RStudio as well as the learning from class in order to deconstruct the aforementioned scene and put it through data analysis.
 
 # Body
 
@@ -34,6 +32,9 @@ Second, I will demonstrate probabilities of survival by incorporating Bayes' The
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+First, we as the audience have it described to us before the Death Star attack from Wedge Antilles that the shot required to destroy the Death Star is “…impossible! Even for a computer.” to which Luke Skywalker replies “It's not impossible. I used to bullseye womp rats in my T-16 back home, they're not much bigger than two meters.” After the battle Han Solo exclaims “Great shot, kid. That was one in a million!” What we can determine from these lines of dialogue is that while not impossible, the shot that Luke took to successfully destroy the Death Star was incredibly difficult and should be expected as an extremely rare event. Likely only possible due to Luke's use of the Force.
+
+Second, I will demonstrate probabilities of survival by incorporating Bayes' Theorem and tree diagrams along the lines of the two squadrons that attacked the Death Star. Red Squadron was comprised strictly of X-Wings and Gold Squadron was comprised strictly of Y-Wings. Each squadron consists of 12 Starfighters each. I will use this data and the occurrences of the battle in order to demonstrate several scenarios and the probabilities associated with them. I will also use RStudio to calculate and display findings.
 
 In order to run this RMarkdown, the following files will need to be accessible:
 
@@ -67,9 +68,8 @@ Here were will demonstrate R functions and means of analyzing data from the firs
 First let us take a look at the data set demonstrating a "one in a million shot".
 
 
-```{r}
-#Just kidding this is a huge data set consisting of a million rows and we are not going run this as a native visualization due to time this would take to run, as well as the amount of real estate it would take up on the subsequent PDF file.
-```
+
+Just kidding! This is a huge data set consisting of a million rows and we are not going run this as a native visualization due to time this would take to run, as well as the amount of real estate it would take up on the subsequent PDF file.
 
 
 Notice that while not overly complex, the table does express one million cells to demonstrate 999,999 misses and 1 successful hit. The 0's representing FALSE or in this cases misses and the 1 representing TRUE, in this case a hit.
@@ -77,19 +77,29 @@ Notice that while not overly complex, the table does express one million cells t
 Here are a few different functions within R that can be used to analyse the data set:
 
 
+This shows the dimensions of the data set:
 ```{r}
-#This shows the dimensions of the data set:
 
 dim(DeathStarShot)
 
-#This shows us the amount of variables found within the data set:
+```
+
+
+This shows us the amount of variables found within the data set:
+
+
+```{r}
 
 length(names(DeathStarShot))
 
-#This shows us the range of the attempts that were made in the data set. In this scenario it is severely limited as we are simply looking for FALSE or TRUE statements:
+```
+
+
+This shows us the range of the attempts that were made in the data set. In this scenario it is severely limited as we are simply looking for FALSE or TRUE statements:
+
+```{r}
 
 range(DeathStarShot$Hit.or.Miss)
-
 
 ```
 
@@ -98,8 +108,10 @@ Let's use coding in RStudio to confirm how many "hits" there are in the data set
 
 
 ```{r}
+
 Hit <- 1 == DeathStarShot$Hit.or.Miss
 length(which(Hit))
+
 ```
 
 
@@ -107,6 +119,7 @@ Let us also use coding in RStudio to determine how many "misses" there are:
 
 
 ```{r}
+
 Miss <- 0 == DeathStarShot$Hit.or.Miss
 
 length(which(Miss))
@@ -116,28 +129,30 @@ length(which(Miss))
 
 Next, we will demonstrate this data visually with the tools R gives us.
 
+Scatterplot representation:
 
 ```{r}
-#Scatterplot representation:
 
 plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, pch = 16, col = ifelse(DeathStarShot$Hit.or.Miss > 0, "green", "red"))
 
-#Notice the graph only presents 0's and 1's due to our data set using 0's and 1's for FALSE and TRUE statements.
 ```
 
+Notice the graph only presents 0's and 1's due to our data set using 0's and 1's for FALSE and TRUE statements.
+
+
+Barplot representation:
 
 ```{r}
-
-#Barplot representation:
 
 barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, col = ifelse(DeathStarShot$Hit.or.Miss < 0, "green", "red"))
 
 ```
 
 
-```{r}
+Boxplot representation:
 
-#Boxplot representation:
+
+```{r}
 
 boxplot(DeathStarShot$Hit.or.Miss)
 
@@ -161,140 +176,225 @@ boxplot(x)
 
 
 ## Topic 2:
+
 In this next topic section let's explore concepts of geometric distribution and Bernoulli Trials:
 
+
+First, calculate the probability of a "one in a million shot".
+
 ```{r}
-#First, calculate the probability of a "one in a million shot".
 
 Prob <- 1 / 1000000
 Prob
 
-#In decimal form this is 0.000001. Which would then be 0.0001%
-
 ```
+
+
+In decimal form this is 0.000001. Which would then be 0.0001%
+
 
 
 In the attack on the Death Star, there are three attempts to destroy the Death Star by shooting Proton Torpedoes down the exhaust port. First by Gold Leader, then Red Leader, and finally Red Five (Luke Skywalker).
 
 
+
+What is the probability that Gold Leader (first attempt) successfully makes the shot?
+
+
 ```{r}
-#What is the probability that Gold Leader (first attempt) successfully makes the shot?
 
 dgeom(x = 1, prob = 0.000001)
 
-#In decimal form this is 0.000000999999. Which would then be 0.0000999999%
+```
 
-#What is the probability that Red Leader (second attempt) successfully makes the shot?
+
+In decimal form this is 0.000000999999. Which would then be 0.0000999999%
+
+
+
+What is the probability that Red Leader (second attempt) successfully makes the shot?
+
+```{r}
 
 dgeom(x = 2, prob = 0.000001)
 
-#In decimal form this is 0.000000999998. Which would then be 0.0000999998%
+```
 
-#What is the probability that Red Five [Luke Skywalker] (third attempt) successfully makes the shot?
+
+In decimal form this is 0.000000999998. Which would then be 0.0000999998%
+
+
+
+What is the probability that Red Five [Luke Skywalker] (third attempt) successfully makes the shot?
+
+```{r}
 
 dgeom(x = 3, prob = 0.000001)
 
-#In decimal form this is 0.000000999997 Which would then be 0.0000999997%
 ```
+
+
+In decimal form this is 0.000000999997 Which would then be 0.0000999997%
+
 
 
 We can see that with each attempt the probability does improve, however, it is only minutely, and it should be appreciated how insanely difficult the feat was.
 
+
+
 How about we look at this another way. Examine the probability of experiencing a specified amount of failures or less before we have a our first success.
 
 
+
+Gold Leader (first attempt)
+
+
 ```{r}
-# Gold Leader (first attempt)
 
 pgeom(q = 1, prob = 0.000001)
 
-#The probability that the first shot would have been successful is 0.0001999999%
+```
 
-#Red Leader (second attempt)
+
+The probability that the first shot would have been successful is 0.0001999999%
+
+
+
+Red Leader (second attempt)
+
+```{r}
 
 pgeom (q = 2, prob = 0.000001)
 
-#The probability that the shot would be successful in two or less shots is 0.0003999994%
+```
 
-#Red Five [Luke Sywalker] (third attempt)
+
+The probability that the shot would be successful in two or less shots is 0.0003999994%
+
+
+
+
+Red Five [Luke Sywalker] (third attempt)
+
+```{r}
 
 pgeom (q = 3, prob = 0.000001)
 
-#The probability that the shot would be successful in three or less shots is 0.0003999994%
+```
 
 
-#Say we had the entire Rebel Fleet to make an attempt, what probability would we find? Remember there were two squadrons, making a total of 24 Starfighters.
+The probability that the shot would be successful in three or less shots is 0.0003999994%
+
+
+
+Say we had the entire Rebel Fleet to make an attempt, what probability would we find? Remember there were two squadrons, making a total of 24 Starfighters.
+
+```{r}
 
 pgeom (q = 24, prob = 0.000001)
 
-#The probability that the shot would be successful in 24 or less shots is 0.00249997%
 ```
+
+
+The probability that the shot would be successful in 24 or less shots is 0.00249997%
+
 
 
 Next, we will find the probability of having one successful hit with different trials on in this case, attempts:
 
 
-```{r}
+Gold Leader
 
-#Gold Leader
+
+```{r}
 
 dbinom(x = 1, size = 1, prob = 0.000001)
 
-#The probability of one success over one attempt is 0.0001%.
-
-
-
-#Red Leader
-
-dbinom(x = 1, size = 2, prob = 0.000001)
-
-#The probability of one success over two attempts is 0.0001999998%.
-
-
-
-#Red Five (Luke Skywalker)
-
-dbinom(x = 1, size = 3, prob = 0.000001)
-
-#The probability of one success over three attempts is 0.0002999994%.
-
-
-
-#Rebel Fleet
-
-dbinom(x = 1, size = 24, prob = 0.000001)
-
-#The probability of one success over two attempts is 0.002399945%.
-
 ```
 
-How many attempts (failures) would we need to try before we could expect a hit (success)?
+
+The probability of one success over one attempt is 0.0001%.
+
+
+
+Red Leader
 
 ```{r}
 
-#Here we will run a test where we want to be 100% certain that the shot is successful:
+dbinom(x = 1, size = 2, prob = 0.000001)
+
+```
+
+
+The probability of one success over two attempts is 0.0001999998%.
+
+
+
+Red Five (Luke Skywalker)
+
+```{r}
+
+dbinom(x = 1, size = 3, prob = 0.000001)
+
+```
+
+
+The probability of one success over three attempts is 0.0002999994%.
+
+
+
+Rebel Fleet
+
+```{r}
+
+dbinom(x = 1, size = 24, prob = 0.000001)
+
+```
+
+
+The probability of one success over two attempts is 0.002399945%.
+
+
+
+How many attempts (failures) would we need to try before we could expect a hit (success)?
+
+
+Here we will run a test where we want to be 100% certain that the shot is successful:
+
+```{r}
 
 qnbinom(1, size = 1, prob = 0.000001)
 
-#Notice that the answer is "Inf" or infinity. This is such a difficult shot that we are being told there would need to be an infinite amount of tries.
+```
+
+
+Notice that the answer is "Inf" or infinity. This is such a difficult shot that we are being told there would need to be an infinite amount of tries.
 
 
 
-#So we need to modify the test so that we modify our certainty from 100% to 99%:
+So we need to modify the test so that we modify our certainty from 100% to 99%:
+
+```{r}
 
 qnbinom(.99, size = 1, prob = 0.000001)
 
-#Here we find that in order to be 99% certain that the first shot was a success, the pilot would need to make 4,605,167 attempts.
+```
+
+
+Here we find that in order to be 99% certain that the first shot was a success, the pilot would need to make 4,605,167 attempts.
 
 
 
-#Let us modify this once more to modify our certainty level from 99% to 99.9%:
+Let us modify this once more to modify our certainty level from 99% to 99.9%:
+
+```{r}
 
 qnbinom(.999, size = 1, prob = 0.000001)
 
-#Notice the change? The shot is so difficult that just just the change pf 99% to 99.9% increases the amount of attempts from 4,605,167 to 6,907,751. A pilot would need an additional 2,302,584 attempts.
-
 ```
+
+
+Notice the change? The shot is so difficult that just the small change in our level of certainty of 99% to 99.9% increases the amount of attempts from 4,605,167 to 6,907,751. A pilot would need an additional 2,302,584 attempts.
 
 
 
@@ -311,79 +411,141 @@ knitr::include_graphics("StarfighterSurvival.png")
 ```
 
 
+There were a total of two squadrons, or 24 Starfighters as each squadron is made up of 12 Starfighters. Given that there were only three survivors between the Rebel squadrons we would calculate the probability of survival as:
 ```{r}
-#There were a total of two squadrons, or 24 Starfighters as each squadron is made up of 12 Starfighters. Given that there were only three survivors between the Rebel squadrons we would calculate the probability of survival as:
 
 Survival <- 3 / 24
 
 Survival
 
-#So we find that the probability of survival was 12.5%.
-
 ```
+
+
+So we find that the probability of survival was 12.5%.
+
 
 
 Next, let's compare the difference in probability of survival  based upon the class of Starfighter that was being flown:
 
+
+Of Red Squadron, there were only two survivors. So to calculate the probability of survival across the Rebel fleet we would do the following:
+
 ```{r}
-# Of Red Squadron, there were only two survivors. So to calculate the probability of survival across the Rebel fleet we would do the following:
 
 XWingSurvival <- 2 / 24
 
 XWingSurvival
 
-#So we find that the probability of surviving the Battle of Yavin while flying an X-Wing was 8.3%.
+```
 
-#Of Gold Squadron, there was only one survivor:
+
+So we find that the probability of surviving the Battle of Yavin while flying an X-Wing was 8.3%.
+
+
+
+Of Gold Squadron, there was only one survivor:
+
+```{r}
 
 YWingSurvival <- 1 / 24
 
 YWingSurvival
 
-#Therefore the probability of survival while flying a Y-Wing was 4.166667%.
-
 ```
+
+
+Therefore the probability of survival while flying a Y-Wing was 4.166667%.
+
+
 
 ## Topic 4:
 
 Let's look at this another way using a tree diagram while using the principles of Bayes' Theorem.
 
+
+Here is how we find probability of being shot down in the Rebel fleet was the following:
+
+
 ```{r}
-#The probability of being shot down in the Rebel fleet was the following:
 
 ShotDown <- 21 / 24
 ShotDown
 
-#The probability of surviving was:
+```
+
+Probability of being shot down was 87.5%.
+
+
+
+And how to find the probability of surviving:
+
+```{r}
 
 Surviving <- 3 / 24
 Surviving
 
 ```
 
+
+Probability of surviving was 12.5%
+
+
+
+The probability of being shot down in Red Squadron was:
+
 ```{r}
-#The probability of being shot down in Red Squadron was:
+
 
 RedSqdSD <- 10 / 12
 RedSqdSD
 
-#The probability of being shot down in Gold Squadron was:
+```
+ 
+Or 83.33333333%
+
+
+The probability of being shot down in Gold Squadron was:
+
+```{r}
 
 GoldSqdSD <- 11 / 12
 GoldSqdSD
 
-#The probability of surviving in Red Squadron was:
+```
+
+
+Or 91.66667%
+
+
+
+The probability of surviving in Red Squadron was:
+
+```{r}
 
 RedSqdSur <- 2 / 12
 RedSqdSur
 
-#The probability of surviving in Gold Squadron was:
+```
+
+
+Or 16.66667%
+
+
+
+The probability of surviving in Gold Squadron was:
+
+```{r}
 
 GoldSqdSur <- 1 / 12
 GoldSqdSur
 
 ```
- 
+
+
+Or 8.3333333%
+
+
+
  
 Therefore, we can calculate the following probabilities via a tree diagram in R as such:
 
@@ -409,6 +571,7 @@ barplot(Val1)
 ```
 
 
+
 This then allows us to answer the question of if a pilot survived the Battle of Yavin, what is the probability that they flew with Gold Squadron?
 
 ```{r}
@@ -418,10 +581,11 @@ ProbYWingSur <- SurGoldSqd / ProbSur
 
 1 - ProbYWingSur
 
-#We find that the probability that the surviving pilot flew with Gold Squadron was 66.66667%
-
-
 ```
+
+
+We find that the probability that the surviving pilot flew with Gold Squadron was 66.66667%
+
 
 
 As another example, let us find if a pilot was shot down, what is the probability that they flew with Red Squadron?
@@ -435,8 +599,11 @@ ProbXWingSD <- SDRedSqd / ProbSD
 
 1 - ProbXWingSD
 
-#We find that the probability that the shot down pilot was with Red Squadron was 52.38095%
 ```
+
+
+We find that the probability that the shot down pilot was with Red Squadron was 52.38095%
+
 
 
 # Conclusion
