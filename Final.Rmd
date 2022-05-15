@@ -275,14 +275,8 @@ qnbinom(.999, size = 1, prob = 0.000001)
 Here we will calculate the probabilities of survival through a few different exercises.
 
 
-
-```{r, echo=FALSE, fig.align = "center", out.width="90%"}
-knitr::include_graphics("StarfighterSurvival.png")
-```
-
-
-
 First, let us explore what the chances of survival were regardless of the class of Starfighter flown during the Battle of Yavin. Here is the data will we be using in the subsequent exercises:
+
 
 ```{r, echo=FALSE, fig.align = "center", out.width="90%"}
 knitr::include_graphics("StarfighterSurvival.png")
