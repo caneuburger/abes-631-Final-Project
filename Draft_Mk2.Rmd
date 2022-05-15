@@ -5,6 +5,8 @@ date: "4/27/2022"
 output: pdf_document
 ---
 
+
+
 # Intro
 
 In this project I desire to create a fusion of the materials that we have been studying in this class and a pop culture reference. 
@@ -88,7 +90,7 @@ range(DeathStarShot$Hit.or.Miss)
 ```
 
 
-Lets use coding in R to confirm how many "hits" there are in the data set:
+Let's use coding in R to confirm how many "hits" there are in the data set:
 
 
 ```{r}
@@ -97,7 +99,7 @@ length(which(Hit))
 ```
 
 
-Lets also use coding in R to determine how many "misses" there are:
+Let us also use coding in R to determine how many "misses" there are:
 
 
 ```{r}
@@ -108,7 +110,7 @@ length(which(Miss))
 ```
 
 
-Lets demonstrate this data visually with the tools R gives us.
+Next, demonstrate this data visually with the tools R gives us.
 
 
 ```{r}
@@ -122,7 +124,7 @@ plot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, pch = 16, col = ifelse(D
 ```{r}
 #Barplot representation:
 
-barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, pch = 16, col = ifelse(DeathStarShot$Hit.or.Miss < 0, "green", "red"))
+barplot(DeathStarShot$Attempts, DeathStarShot$Hit.or.Miss, col = ifelse(DeathStarShot$Hit.or.Miss < 0, "green", "red"))
 ```
 
 
@@ -150,10 +152,10 @@ boxplot(x)
 
 
 ## Topic 2:
-In this next topic section lets explore concepts of geometric distribution and Bernoulli Trials:
+In this next topic section let's explore concepts of geometric distribution and Bernoulli Trials:
 
 ```{r}
-#First, lets calculate the probability of a "one in a million shot".
+#First, calculate the probability of a "one in a million shot".
 
 Prob <- 1 / 1000000
 Prob
@@ -186,7 +188,7 @@ dgeom(x = 3, prob = 0.000001)
 
 We can see that with each attempt the probability does improve, however, it is only minutely, and it should be appreciated how insanely difficult the feat was.
 
-Lets look at this another way. Lets examine the probability of experiencing a specified amount of failures or less before we have a our first success.
+How about we look at this another way. Examine the probability of experiencing a specified amount of failures or less before we have a our first success.
 
 ```{r}
 # Gold Leader
@@ -209,13 +211,13 @@ pgeom (q = 3, prob = 0.000001)
 #The probability that the shot would be successful in three or less shots is 0.0003999994%
 
 
-#Lets say we had the entire Rebel Fleet to make an attempt, what probability would we find? Remember there were two squadrons, making a total of 24 Starfighters.
+#Say we had the entire Rebel Fleet to make an attempt, what probability would we find? Remember there were two squadrons, making a total of 24 Starfighters.
 
 pgeom (q = 24, prob = 0.000001)
 
 #The probability that the shot would be successful in 24 or less shots is 0.00249997%
 ```
-Next, lets find the probability of having one successful hit with different trials on in this case, attempts:
+Next, we will find the probability of having one successful hit with different trials on in this case, attempts:
 
 ```{r}
 #Gold Leader
@@ -246,19 +248,19 @@ dbinom(x = 1, size = 24, prob = 0.000001)
 How many attempts (failures) would we need to try before we could expect a hit (success)?
 
 ```{r}
-#Here lets run a test where we want to be 100% certain that the shot is successful:
+#Here we will run a test where we want to be 100% certain that the shot is successful:
 
 qnbinom(1, size = 1, prob = 0.000001)
 
 #Notice that the answer is "Inf" or infinity. This is such a difficult shot that we are being told there would need to be an infinite amount of tries.
 
-#So lets modify the test so that we modify our certainty from 100% to 99%:
+#So we need to modify the test so that we modify our certainty from 100% to 99%:
 
 qnbinom(.99, size = 1, prob = 0.000001)
 
 #Here we find that in order to be 99% certain that the first shot was a success, the pilot would need to make 4,605,167 attempts.
 
-#Lets modify this once more to modify or certainty level from 99% to 99.9%:
+#Let us modify this once more to modify our certainty level from 99% to 99.9%:
 
 qnbinom(.999, size = 1, prob = 0.000001)
 
@@ -299,7 +301,7 @@ Survival
 ```
 
 
-Next, lets compare the difference in probability of survival  based upon the class of Starfighter that was being flown:
+Next, let's compare the difference in probability of survival  based upon the class of Starfighter that was being flown:
 
 ```{r}
 # Of Red Squadron, there were only two survivors. So to calculate the probability of survival across the Rebel fleet we would do the following:
@@ -360,7 +362,9 @@ GoldSqdSur
 
 ```
  
+ 
 Therefore, we can calculate the following probabilities via a tree diagram in R as such:
+
 
 ```{r}
 SDRedSqd <- ShotDown * RedSqdSD
@@ -376,7 +380,13 @@ SDGoldSqd
 SurRedSqd
 SurGoldSqd
 
+Val1 <- c(SDRedSqd, SDGoldSqd, SurRedSqd, SurGoldSqd)
+
+barplot(Val1, horiz = TRUE)
+
 ```
+
+
 This then allows us to answer the question of if a pilot survived the Battle of Yavin, what is the probability that they flew with Gold Squadron?
 
 ```{r}
@@ -387,8 +397,14 @@ ProbYWingSur <- SurGoldSqd / ProbSur
 1 - ProbYWingSur
 
 #We find that the probability that the surviving pilot flew with Gold Squadron was 66.66667%
+
+
 ```
+
+
 As another example, let us find if a pilot was shot down, what is the probability that they flew with Red Squadron?
+
+
 
 ```{r}
 ProbSD <- SDRedSqd + SDGoldSqd
@@ -399,5 +415,6 @@ ProbXWingSD <- SDRedSqd / ProbSD
 
 #We find that the probability that the shot down pilot was with Red Squadron was 52.38095%
 ```
+
 
 # Conclusion
